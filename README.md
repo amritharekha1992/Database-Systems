@@ -1,8 +1,7 @@
 # Database-Systems
 Database Systems Repository
 
-# Problem #1 – For each of our tables, retrieve all rows and all columns.Tables are Student, Faculty, Offering, Course, and Enrollment
-# (no need to sort at this point)
+# Problem #1 – For each of our tables, retrieve all rows and all columns.Tables are Student, Faculty, Offering, Course, and Enrollment (no need to sort at this point)
 Answer:
 SELECT * FROM Student S;
 SELECT * FROM Faculty F;
@@ -10,8 +9,7 @@ SELECT * FROM Offering O;
 SELECT * FROM Course C;
 SELECT * FROM Enrollment E;
 
-# Problem #2 – Retrieve the student number, student first name, and student last name for all students
-# Sort the results by student last name then by student first name Use the ASC keyword on the query
+# Problem #2 – Retrieve the student number, student first name, and student last name for all students Sort the results by student last name then by student first name Use the ASC keyword on the query
 Answer:
 SELECT S.STDNO, S.STDFIRSTNAME, S.STDLASTNAME FROM Student S
 ORDER BY S.STDLASTNAME ASC, S.STDFIRSTNAME ASC;
@@ -20,8 +18,7 @@ Answer:
 SELECT S.STDNO,S.STDFIRSTNAME,S.STDLASTNAME FROM Student S
 ORDER BY S.STDLASTNAME, S.STDFIRSTNAME;
 
-# Problem #3 – Retrieve the student last name, student first name, and GPA for all students
-# Sort the results by GPA highest first, then by student last name, then by student first name Use column names to sort (omit ASC)
+# Problem #3 – Retrieve the student last name, student first name, and GPA for all students Sort the results by GPA highest first, then by student last name, then by student first name Use column names to sort (omit ASC)
 Answer:
 SELECT S.STDLASTNAME, S.STDFIRSTNAME, S.STDGPA FROM Student S
 ORDER BY S.STDGPA DESC, S.STDLASTNAME, S.STDFIRSTNAME;
