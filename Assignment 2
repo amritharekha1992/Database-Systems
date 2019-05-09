@@ -1,0 +1,233 @@
+Chapter 3 Problems – The Relational Database Model
+Do Problems 1-9 on page 108 of our textbook.
+==================================================
+
+1.For each table, identify the primary key and the foreign key(s). If a table does not have a foreign key, write None
+---------------------------------------------------------------------------------------------------------------------
+Answer :
+Below are the primary and the foreign keys of the corresponding tables :
+
+Table Name	Primary Key	Foreign Key
+EMPLOYEE	| EMP_CODE	  |STORE_CODE
+STORE	    | STORE_CODE	|REGION+CODE, EMP_CODE
+REGION	  | REGION+CODE	|None
+ 
+2.Do the tables exhibit entity integrity? Answer yes or no, and then explain your answer.
+-----------------------------------------------------------------------------------------
+Answer:
+All the three tables Employee, Store and Region exhibit entity integrity.
+
+Table Name	Entity Integrity
+EMPLOYEE	  Yes
+STORE	      Yes
+REGION	    Yes
+
+Each of the primary keys like EMP_CODE for the Employee table, STORE_CODE for the Store table and the REGION_CODE for the Region table were unique and not null . Each of the rows in the three tables can be uniquely indentified using their respective primary keys and thus exhibiting the entity integrity.
+
+3.Do the tables exhibit referential integrity? Answer yes or no, and then explain your answer. Write NA (Not Applicable) if the table 
+does not have a foreign key.Employee and Store table exhibits referential integrity but the Region table doesnot.
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+Table Name	Referential Integrity
+EMPLOYEE	  Yes
+STORE	      Yes
+REGION	    NA
+
+Employee : The STORE_CODE value that is present in the EMPLOYEE table as the foreign     key values matches the STORE_CODE value that is already present as the primary key in the STORE table. Hence EMPLOYEE table exhbibits referential integrity.
+Store : The REGION_CODE value that is present in the STORE table as the foreign key values matches the REGION_CODE value that is already present as the primary key in the REGION table.
+The EMP_CODE value that is present in the STORE table as the foreign key values matches the EMP_CODE value that is already present in the EMPLOYEE table as the primary keys. Hence STORE table exhbibits referential integrity.
+
+4.	Describe the type(s) of relationship(s) between STORE and REGION.
+---------------------------------------------------------------------
+Answer:
+Relationship : ONE region consists of MANY stores. ( 1: M)
+As here in the STORE table we could see that for multiple STORE_CODE we have the same REGION_CODE describing the relationship between them. In one region we could have many stores while one store can be present only in one region.
+
+5.Create the ERD to show the relationship between STORE and REGION
+------------------------------------------------------------------
+Answer:
+Entity relationship diagram (Crow- foot notation)
+
+In the Entity relationship diagram we could see that there can be multiple stores located in the same region, 
+hence describing the relationship between them.
+
+6.Create the relational diagram to show the relationship between STORE and REGION.
+----------------------------------------------------------------------------------
+Answer:
+Relational digram representing the relationship between STORE and REGION
+
+7.Describe the type(s) of relationship(s) between EMPLOYEE and STORE. (Hint: Each store employs many employees, one of whom manages 
+the store.)	
+-----------------------------------------------------------------------------------------------------------------------------------
+Answer:
+Relationship : ONE store employs MULTIPLE employees (1:M)
+Here in the EMPLOYEE table we could see the same STORE_CODE being present for different employee depicting the relationship that many employees can be employed in the same store.
+
+Relationship : ONE employee can work only in ONE store ( 1:1)
+From the EMPLOYEE table we can also understand that each employee is associated with only one store , hence it explains the one to one relationship between them.
+
+8.Create the ERD to show the relationships among EMPLOYEE, STORE, and REGION
+---------------------------------------------------------------------------
+Answer:
+Describe the type(s) of relationship(s) between STORE and REGION.
+Entity relationship diagram depicting relationship between Employee, Store and Region tables ( Crow-foot notation)
+From the above entity relationship diagram we could see that the Store is related to Employee with a One to Many relationship
+and Region is also related to Store with a  One to Many relationship.       
+
+
+9.	Create the relational diagram to show the relationships among EMPLOYEE, STORE, and REGION.
+Relational digram depicting the relationship between EMPLOYEE, STORE and the REGION tables 
+
+ Chapter 4 Problems – Entity Relationship (ER) Modeling.Do Problems 1-3 on pages 152 of our textbook.
+ ====================================================================================================
+
+Question – 3
+The Jonesburgh County Basketball Conference (JCBC) is an amateur basketball association. Each city in the county has one team as its
+representative. Each team has a maximum of 12 players and a minimum of 9 players. Each team also has up to three coaches (offensive, 
+defensive, and physical training coaches). During the season, each team plays two games (home and visitor) against each of the other
+teams. Given those conditions, do the following:
+a. Identify the connectivity of each relationship.
+b. Identify the type of dependency that exists between CITY and TEAM.
+c. Identify the cardinality between teams and players and between teams and city.
+d. Identify the dependency between COACH and TEAM and between TEAM and PLAYER.
+e. Draw the Chen and Crow’s Foot ERDs to represent the JCBC database.
+f. Draw the UML class diagram to depict the JCBC database.
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Answer:
+a.	Connectivities
+One Location generates many Games - 1:M relationship
+One Game contains many Gamestatistics – 1:M relationship
+One player appears in multiple Gamestatistics - 1:M relationship
+One team can have many players (9 to 12) - 1:M relationship
+One team will be playing for one city – 1:1 relationship
+One team can be coached by multiple coaches (1 to 3) – 1:M relationship
+One team will appear in multiple Gameline – 1: M relationship
+In one city the games can be held in multiple locations – 1:M relationship
+One game appears in multiple Gameline – 1:M relationship
+
+b.	Type of dependency existing between CITY and TEAM
+Each city can have only one team. Therefore, the relationship between CITY and team will be a 1:1 relationship (1:1).
+
+c.	Cardinality between team and players
+One team will consist of multiple players like minimum of 9 to maximum of 12 players. Hence, we are having 1:M relationship and the cardinality associated with Team is (1,1) and the cardinality with player (9,12).
+
+Cardinality between team and city
+One city will have only one team associated with it. Hence the cardinalities assoiated with both team and city (1,1)
+
+d.	Dependency between COACH and Team
+Here the relationship between the COACH and TEAM is One to Many (M:1). A team can have a minimum of one and a maximum of three coaches.
+
+Dependency between TEAM and PLAYER
+Here the relationship between the TEAM and PLAYER is One to Many (1:M). A team can have minimum of 9 players and a maximum of 12 players.
+
+f. UML Diagram
+
+Using the following the previously provided UniversityDDL-Bad script for Oracle create a working MYSQL compatible .sql file.  Then copy and paste the working MYSQL script to DBeaver to answer the following eight (9-16) practical SQL questions that follow.  You will need to convert the working Oracle script to MYSQL script format. 
+ 
+Problem #9 – Retrieving a subset of rows with testing for an exact string and inexact string
+Retrieve the offer number, course number, location, year, and faculty number from all course offerings in location BLM302 
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+select O.OfferNo as Ofrnum,
+       O.CourseNo as Crsnum,
+       O.OffLocation as Location,
+       O.OffYear as Year, 
+       O.FacNo as Facnum 
+from offering O 
+where OffLocation = 'BLM302'
+order by 1,2,3,4,5; 
+
+Retrieve the offer number, course number, location, year, and faculty number from all course offerings in location BLM 3rd floor
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+select O.OfferNo as Ofrnum,
+       O.CourseNo as Crsnum,
+       O.OffLocation as Location,
+       O.OffYear as Year,
+       O.FacNo as Facnum 
+ from offering O 
+ where OffLocation IN ('BLM302', 'BLM305', 'BLM307')
+ order by 1,2,3,4,5;
+
+Problem #10 – Using a derived column in both the column list and the WHERE clause
+Retrieve the student last name, student first name, and GPA plus 10% for all students with GPA plus 10% greater than 3 
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+select S.StdlastName as Lastname, 
+       S.StdFirstName as Firstname,
+      (S.StdGPA + 0.1 * S.StdGPA) as GPAplus
+ from student S
+ where (S.StdGPA + 0.1 * S.StdGPA) > 3
+ order by 1,2,3;
+
+Problem #11 – Retrieving the number of rows from all of our tables
+For each of our tables, retrieve the number of rows Tables are Student, Faculty, Offering, Course, and Enrollment 
+(omit sorting, table aliases, and column aliases) 
+-------------------------------------------------------------------------------------------------------------------------
+Answer : 
+select count(*) from student;
+select count(*) from faculty;
+select count(*) from offering;
+select count(*) from course;
+select count(*) from enrollment;
+ 
+Problem #12 – Examining the effect of NULL values on aggregate functions-Retrieve the number of rows in the Faculty table using COUNT(*) 
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+select count(*) from faculty F;
+
+Retrieve the number of rows in the Faculty table using COUNT(f.FacSupervisor) 
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+select count(f.FacSupervisor) from faculty f;
+
+How many rows does each one return?  Why? 
+-------------------------------------------------------------------------------------------------------------------------
+Answer :
+Count(*) returns the number of rows to be 6 , while count(f.FacSupervisor) returns only 4 rows. In count (*) function it returns all the rows in the Faculty table and for count(f.FacSupervisor) function it omits 2 rows in the FacSupervisor colum which has NULL values and returns the other 4, i.e. it picks only the NON-NULL values.
+ 
+Problem #13 – Aggregates on all rows of a table
+Retrieve the average GPA for all students 
+-------------------------------------------------------------------------------------------------------------------------
+
+Answer :
+select avg(S.StdGPA) as AvgGPA
+from student S;
+ 
+Problem #14 – Aggregates on a subset of rows of a table (using a WHERE clause)
+Retrieve the minimum GPA, maximum GPA, average GPA, and average GPA plus 10% for freshman students 
+-------------------------------------------------------------------------------------------------------------------------
+
+Answer :
+select min(S.StdGPA) as MinGPA,
+       max(S.StdGPA) as MaxGPA,
+       avg(S.StdGPA) as AvgGPA,
+       (avg(S.StdGPA) + 0.1*avg(S.StdGPA)) as GPAplus
+from student S
+where S.StdClass = 'FR';
+ 
+Problem #15 – Aggregates on a group of rows (using a GROUP BY clause)
+Retrieve the class name, minimum GPA, maximum GPA, average GPA, and average GPA plus 10% for each class 
+-------------------------------------------------------------------------------------------------------------------------
+Answer : 
+select S.StdClass as Classname,
+       min(S.StdGPA) as MinGPA,
+       max(S.StdGPA) as MaxGPA,
+       avg(S.StdGPA) as AvgGPA,
+       (avg(S.StdGPA) + 0.1*avg(S.StdGPA)) as GPAplus
+from student S
+group by S.StdClass;
+ 
+Problem #16 – Aggregates on a subset of rows that are grouped  (using a WHERE clause and a GROUP BY clause)
+Retrieve the class name, minimum GPA, maximum GPA, average GPA, and average GPA plus 10% for each class but only for non-IS majors 
+-------------------------------------------------------------------------------------------------------------------------
+Answer : 
+select S.StdClass as Classname,
+       min(S.StdGPA) as MinGPA,
+       max(S.StdGPA) as MaxGPA,
+       avg(S.StdGPA) as AvgGPA,
+       (avg(S.StdGPA) + 0.1*avg(S.StdGPA)) as GPAplus
+from student S
+where S.StdMajor != 'IS'
+group by S.StdClass;
