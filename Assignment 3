@@ -1,0 +1,203 @@
+Chapter 7 Problems – Introduction to Structured Query Language (SQL).Do Problems 1-8 on pages 295 of our textbook.
+==================================================================================================================
+
+Write the SQL code that will create the table structure for a table named EMP_1. This table is a subset of the EMPLOYEE table.
+The basic EMP_1 table structure is summarized in the following table. (Note that the JOB_CODE is the FK to JOB.)
+Problem -1
+-------------------------------------------------------------------------------------------------------------------------------
+Answer:
+CREATE TABLE EMP_1 (
+EMP_NUM CHAR(3) PRIMARY KEY,
+EMP_LNAME VARCHAR(15) NOT NULL,
+EMP_FNAME VARCHAR(15) NOT NULL,
+EMP_INITIAL CHAR(1),
+EMP_HIREDATE DATE,
+JOB_CODE CHAR(3),
+FOREIGN KEY (JOB_CODE) REFERENCES JOB);
+
+Problem -2
+Having created the table structure in Problem 1, write the SQL code to enter the first two rows for the table shown in Figure P7.2.
+-----------------------------------------------------------------------------------------------------------------------------------
+Answer:
+INSERT INTO EMP_1 VALUES('101','News','John','G','2000-11-8','502');
+INSERT INTO EMP_1 VALUES('102','Senior','David','H','1989-7-12','501');
+
+Problem -3
+Assuming that the data shown in the EMP_1 table have been entered, write the SQL code that will list all attributes for a job code of 502.
+------------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select * from EMP_1 where JOB_CODE  = "502";
+
+Problem -4
+Write the SQL code that will save the changes made to the EMP_1 table.
+---------------------------------------------------------------------
+Answer:
+commit;
+
+Problem -5
+Write the SQL code to change the job code to 501 for the person whose employee number (EMP_NUM) is 107. After you have completed 
+the task, examine the results and then reset the job code to its original value.
+---------------------------------------------------------------------------------------------------------------------------------
+Answer:
+
+To change the job code to 501.
+update emp_1
+set JOB_CODE = "501"
+where EMP_NUM = "107";
+
+To examine the results 
+select * from EMP_1 where EMP_NUM = "107";
+
+To reset the job code to the original value 
+rollback;
+
+Problem -6
+Write the SQL code to delete the row for William Smithfield, who was hired on June 22, 2004, and whose job 
+code is 500. (Hint: Use logical operators to include all of the information given in this problem.)
+----------------------------------------------------------------------------------------------------------
+Answer:
+delete from emp_1
+where EMP_LNAME = 'Smithfield'
+and EMP_FNAME = 'William'  
+and JOB_CODE = '500' 
+and emp_hiredate = '22-June-04';
+
+Problem -7
+Write the SQL code that will restore the data to its original status; that is, the table should contain the data that
+existed before you made the changes in Problems 5 and 6.
+---------------------------------------------------------------------------------------------------------------------
+Answer:
+rollback;
+
+Problem -8
+Write the SQL code to create a copy of EMP_1, naming the copy EMP_2. Then write the SQL code that will add the attributes EMP_PCT and
+PROJ_NUM to the structure. The EMP_PCT is the bonus percentage to be paid to each employee. The new attribute characteristics are:
+EMP_PCT NUMBER(4,2)
+PROJ_NUM CHAR(3) (Note: If your SQL implementation allows it, you may use DECIMAL(4,2) or NUMERIC (4,2) rather than NUMBER(4,2).)
+--------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+
+create table EMP_2 as select * from EMP_1;
+
+alter table EMP_2
+add ( EMP_Pct Decimal (4,2)),
+add (Proj_Num char(3));
+
+Using MYSQL to answer the following eight (9-16) practical SQL questions from the UniversityDDL-Bad.  
+=====================================================================================================
+Problem #17 – Aggregates that are grouped and subsetted (using a GROUP BY clause and a HAVING clause)
+Retrieve the class name, minimum GPA, maximum GPA, average GPA, and average GPA plus 10% for each class but only for classes with an 
+average GPA less than 3.5. 
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select s.StdClass, min(s.StdGPA) as MinGPA, max(s.StdGPA) as MaxGPA, 
+avg(s.StdGPA) as AvgGPA, (avg(s.StdGPA) + .10*avg(s.StdGPA)) as GPAPlus
+from student as s
+group by s.StdClass
+having (avg(s.StdGPA) < 3.5);
+ 
+Problem #18 – Aggregates of a subset of rows that are grouped and subsetted (using a WHERE clause, a GROUP BY clause, and a HAVING clause)
+ Retrieve the class name, minimum GPA, maximum GPA, average GPA, and average GPA plus 10% for each class but only for non-IS majors and
+ only for classes with an average GPA greater than 3 for non-IS majors.
+ -------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select s.StdClass, min(s.StdGPA) as MinGPA, max(s.StdGPA) as MaxGPA,avg(s.StdGPA) as AvgGPA, (avg(s.StdGPA) + .10*avg(s.StdGPA)) as GPAPlus
+from student as s
+where  s.StdMajor != 'IS'
+group by s.StdClass
+having (avg(s.StdGPA)> 3);
+
+Problem #19 – Cartesian Products, how many rows expected  
+Perform a Cartesian Product between tables Student, Offering, Enrollment, Course, and Faculty 
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select * 
+from faculty  as f cross join student as s cross join offering as o cross join enrollment as e cross join course as c;
+
+How many columns are expected? 
+Answer:  The number of columns expected are 34.
+
+How many rows are expected? 
+Answer: The number of rows expected are 222,222
+
+Select count (*) from faculty;
+Select count (*) from student;
+Select count (*) from offering;
+Select count (*) from enrollment;
+Select count (*) from course;
+. 
+Problem #20 – Cartesian Products, figuring out which rows match
+Perform a Cartesian Product between tables Student, Offering, Enrollment, Course, and Faculty Retrieve only the columns which are
+needed to show matching based on the relationship between the five tables and order in such a way as to tell the matching records.
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select s.StdNo, e.StdNo, E.OfferNo, o.OfferNo, c.CourseNo,o.CourseNo, f.FacNo, o.FacNo
+from faculty  as f cross join student as s 
+cross join offering as o 
+cross join enrollment as e 
+cross join course as c
+order by 1,2,3,4,5,6,7,8;
+ 
+Problem #21 – Turning a Cartesian Product into an Inner Join by adding a WHERE clause to the Cross Product Syntax  
+Start with a Cartesian Product between tables Student, Offering, Enrollment, Course, and Faculty .Retrieve only the columns which are
+needed to show matching based on the relationship between the five tables and order in such a way as to tell the matching records 
+Add a WHERE clause to turn the Cartesian Product into an Inner Join. 
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select s.StdNo, e.StdNo, E.OfferNo, o.OfferNo, c.CourseNo,o.CourseNo, f.FacNo, o.FacNo
+from faculty  as f cross join student as s 
+cross join offering as o 
+cross join enrollment as e 
+cross join course as c
+where s.StdNo = e.StdNo and
+e.OfferNo = o.OfferNo and
+c.CourseNo = o.CourseNo and
+f.FacNo = o.FacNo
+order by 1,2,3,4,5,6,7,8;
+
+
+Problem #22 – Converting an Inner Join from Cross Product Syntax to Join Operator Syntax  
+Start with the Inner Join using Cross Product Syntax for the tables: Student, Offering, Enrollment, Course, and Faculty Convert to
+Join Operator Syntax.
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select s.StdNo, e.StdNo, e.OfferNo, o.OfferNo, c.CourseNo, o.CourseNo, f.FacNo, o.FacNo
+from student as s inner join enrollment e 
+on 
+s.StdNo = e.StdNo 
+inner join offering o 
+on 
+e.OfferNo = o.OfferNo
+inner join course c 
+on
+c.CourseNo = o.CourseNo 
+inner join faculty f on 
+f.FacNo = o.FacNo
+order by 1,2,3,4,5,6,7,8;
+ 
+Problem #23 – Combining Inner Join and WHERE, GROUP BY, and HAVING clauses 
+List the course number, offer number, and average grade of students enrolled in fall 2010 IS course offerings in which more than one 
+student is enrolled. 
+-------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+select o.CourseNo, o.OfferNo, avg(s.StdGPA) 
+from student s join enrollment e
+on s.StdNo = e.StdNo
+join offering o
+on e.OfferNo = o.OfferNo
+where o.OffTerm = 'FALL' and o.OffYear = '2010' and  o.CourseNo like 'IS%'
+group by 1,2;
+having count(s.StdNo) > 1;
+
+There is no data in the table for the classes in Fall 2010 and we are having data for FALL 2009 so just retrieving the same.
+
+select o.CourseNo, o.OfferNo, avg(s.StdGPA) 
+from student s join enrollment e
+on s.StdNo = e.StdNo
+join offering o
+on e.OfferNo = o.OfferNo
+where o.OffTerm = 'FALL' and o.OffYear = '2009' and  o.CourseNo like 'IS%'
+group by 1,2;
+having count(s.StdNo) > 1;
+
+
